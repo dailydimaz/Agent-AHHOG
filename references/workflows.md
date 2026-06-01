@@ -1,6 +1,6 @@
 # Agent AHHOG — Workflow Recipes
 
-Each recipe below is a named workflow that mirrors one of the skills in Agent AHHOG's library. The format is the same throughout:
+Each recipe below is a named workflow that mirrors one of the skills in Agent AHHOG's library, including the newer public Ahrefs' Agent skill/app surface where MCP access allows it. The format is the same throughout:
 
 - **Triggers** — phrases that should activate this workflow
 - **Inputs needed** — what to confirm with the user
@@ -428,6 +428,342 @@ When a user request maps clearly to one workflow, follow it. When it spans two o
 
 ---
 
+## content-calendar
+
+**Triggers:** "build a content calendar", "editorial roadmap", "what should we publish this quarter", "content plan"
+
+**Inputs needed:** target domain, country, planning horizon (default: next 90 days), competitors or topic focus.
+
+**MCP calls:**
+1. `management-projects` to discover tracked domain/competitors if not provided.
+2. `site-explorer-top-pages` and `site-explorer-organic-keywords` for the target → current strengths.
+3. `site-explorer-organic-keywords` for competitors → gaps.
+4. `keywords-explorer-matching-terms`, `related-terms`, and `search-suggestions` for seed expansion.
+5. (Optional) PostHog conversion data for existing content → prioritize by downstream value.
+
+**Synthesis:**
+- Cluster topics by intent and funnel stage.
+- Balance refreshes, new content, comparison pages, programmatic pages, and linkable assets.
+- Prioritize by traffic potential × ranking feasibility × business value; use PostHog conversions where available.
+- Assign each item a suggested publish week, page type, primary keyword, secondary keywords, owner role, and CTA.
+
+**Output:** Markdown calendar strategy plus CSV columns: `week,publish_date,page_type,title,primary_keyword,cluster,volume,kd,intent,cta,priority,notes`.
+
+---
+
+## link-building-strategy
+
+**Triggers:** "create link building strategy", "link plan", "build links", "off-page strategy"
+
+**Inputs needed:** target domain, 2-4 competitors, country or market, outreach constraints.
+
+**MCP calls:**
+1. `site-explorer-backlinks-stats`, `referring-domains`, and `anchors` for target → baseline.
+2. `site-explorer-referring-domains` for competitors → link intersect opportunities.
+3. `site-explorer-broken-backlinks` for target and/or competitors → reclamation and broken-link prospects.
+4. `brand-radar-mentions-overview` / `cited-pages` plus target refdomains → unlinked mentions.
+5. `site-explorer-pages-by-backlinks` for competitors → linkbait patterns.
+
+**Synthesis:**
+- Split strategy into lanes: reclaim, intersect, unlinked mentions, linkable assets, digital PR, partner/vendor links.
+- Score each lane by expected links, DR/traffic quality, effort, and time-to-impact.
+- Recommend outreach angles and assets to create before outreach.
+
+**Output:** Link building plan with a 30/60/90-day roadmap and CSV prospect list where useful.
+
+---
+
+## ai-mention-gap
+
+**Triggers:** "AI mention gap", "competitors show up in AI but we don't", "LLM visibility gap", "AI answer gap"
+
+**Inputs needed:** brand/entity, competitor brands/entities, market, assistant/report scope if known.
+
+**MCP calls:**
+1. `brand-radar-mentions-overview` and `mentions-history` for brand and competitors.
+2. `brand-radar-sov-overview` and `sov-history` with competitors.
+3. `brand-radar-ai-responses` for sample prompts/responses where competitors appear.
+4. `brand-radar-cited-domains` and `cited-pages` to find sources AI assistants trust.
+
+**Synthesis:**
+- Identify prompts/topics where competitors appear and target does not.
+- Extract common cited domains/pages that support competitor visibility.
+- Translate gaps into content, PR, digital authority, and citation-building actions.
+
+**Output:** AI mention gap report with prompt/topic gaps, cited-source gaps, competitor patterns, and prioritized actions.
+
+---
+
+## anchor-text-analysis
+
+**Triggers:** "anchor text analysis", "anchor text audit", "over-optimized anchors", "internal anchor text"
+
+**Inputs needed:** target domain or URL, external vs internal scope, country if organic impact matters.
+
+**MCP calls:**
+1. `site-explorer-anchors` → external anchor distribution.
+2. `site-explorer-linked-anchors-internal` → internal anchor distribution.
+3. `site-explorer-all-backlinks` sample → source quality/context.
+4. `site-explorer-organic-keywords` for commercial keyword overlap.
+
+**Synthesis:**
+- Classify anchors as branded, URL, generic, topical, partial-match, exact-match, or irrelevant.
+- Flag risk where exact commercial anchors are unusually concentrated or from weak/referring domains.
+- Find missed internal-link opportunities where high-value pages lack descriptive internal anchors.
+
+**Output:** Anchor text scorecard plus recommended internal anchor changes and external-risk notes.
+
+---
+
+## linkbait-opportunities
+
+**Triggers:** "linkbait opportunities", "linkable assets", "what content earns links", "digital PR ideas"
+
+**Inputs needed:** target domain, competitors, market/topic.
+
+**MCP calls:**
+1. `site-explorer-pages-by-backlinks` for competitors → their most-linked assets.
+2. `site-explorer-referring-domains` for those competitor assets → link source quality.
+3. `keywords-explorer-matching-terms` / `related-terms` for topic demand.
+4. (Optional) `site-explorer-top-pages` for target → assets that already have traction.
+
+**Synthesis:**
+- Identify repeatable asset patterns: data studies, calculators, templates, original research, statistics pages, benchmarks, glossaries.
+- Score ideas by linkability, search demand, production effort, and fit with target authority.
+- Propose outreach targets and hooks for each asset.
+
+**Output:** Linkable-asset roadmap with 5-15 ideas, proof from competitor links, and promotion plan.
+
+---
+
+## site-audit-discovery
+
+**Triggers:** "site audit discovery", "what Ahrefs projects do we have", "crawl coverage", "find site audit setup"
+
+**Inputs needed:** target domain if known.
+
+**MCP calls:**
+1. `management-projects` → project inventory and tracked domains.
+2. `site-audit-projects` → crawl projects, health, last crawl.
+3. `site-audit-issues` for the target project → current issue inventory.
+4. `site-audit-page-explorer` → crawl coverage and affected page types.
+
+**Synthesis:**
+- Confirm whether the target has a project and recent crawl.
+- Summarize crawl freshness, scope, health, and major issue categories.
+- Identify setup gaps: missing project, stale crawl, wrong scope, ignored subdomains, missing key templates.
+
+**Output:** Site Audit setup and discovery report with next crawl/configuration actions.
+
+---
+
+## site-audit-issue-fixer
+
+**Triggers:** "fix site audit issues", "site audit issue fixer", "create tickets for these SEO issues", "implement technical SEO fixes"
+
+**Inputs needed:** target project/domain, issue scope, whether to create tickets or edit local code if the website repo is present.
+
+**MCP calls:**
+1. `management-projects` and `site-audit-projects` → confirm project.
+2. `site-audit-issues` → issue list and severity.
+3. `site-audit-page-explorer` and `site-audit-page-content` for representative affected pages.
+
+**Synthesis:**
+- Deduplicate issues by underlying template/root cause, not by URL.
+- For each issue group, produce: cause, affected template/pages, fix owner, implementation steps, validation check.
+- If the user's local workspace contains the affected website code and the request implies implementation, inspect the code and patch clear fixes. If mapping from crawl URL to local code is ambiguous, create tickets/specs instead of guessing.
+
+**Output:** Fix plan, GitHub/Linear tickets if requested, and local code patches only when the repo mapping is clear.
+
+---
+
+## trending-keyword-research
+
+**Triggers:** "trending keywords", "rising keywords", "what topics are growing", "trend research"
+
+**Inputs needed:** seed topic(s), country, time window, whether live trend data is required.
+
+**MCP calls:**
+1. `keywords-explorer-matching-terms` / `related-terms` / `search-suggestions` → candidate set.
+2. `keywords-explorer-volume-history` for candidates → historical trend.
+3. `keywords-explorer-volume-by-country` if international demand matters.
+4. If the user explicitly needs live/current trending data, propose SerpApi `google_trends` with credit cost and wait for approval.
+
+**Synthesis:**
+- Separate evergreen high-volume topics from breakout/rising topics.
+- Flag seasonality vs genuine growth.
+- Prioritize rising topics that have low competition and business fit.
+
+**Output:** Trending keyword report with trend classification and content recommendations.
+
+---
+
+## seo-to-ai-query-converter
+
+**Triggers:** "SEO to AI query converter", "turn keywords into AI prompts", "what AI questions should we monitor", "AI search prompts"
+
+**Inputs needed:** keyword set or topic, brand/entity, competitors, market.
+
+**MCP calls:**
+1. `keywords-explorer-overview` and keyword expansion tools if the keyword set is not supplied.
+2. `brand-radar-ai-responses` for existing prompt/response patterns.
+3. `management-brand-radar-prompts` if available → reuse existing monitored prompts.
+
+**Synthesis:**
+- Convert keywords into natural AI questions across intent types: recommendations, comparisons, how-to, alternatives, best-for, pricing, troubleshooting.
+- Include brand-present, competitor-present, and category-generic prompts.
+- Group prompts by funnel stage and expected response type.
+
+**Output:** AI query/prompt library suitable for Brand Radar monitoring, with priority and expected citation targets.
+
+---
+
+## ai-brand-sentiment
+
+**Triggers:** "AI brand sentiment", "what does AI think of us", "brand perception in AI", "sentiment in ChatGPT/Perplexity"
+
+**Inputs needed:** brand/entity, competitors if benchmarking, market/report scope.
+
+**MCP calls:**
+1. `brand-radar-ai-responses` → qualitative response sample.
+2. `brand-radar-mentions-overview` and `sov-overview` → quantitative context.
+3. `brand-radar-cited-domains` and `cited-pages` → evidence sources shaping perception.
+
+**Synthesis:**
+- Classify responses as positive, neutral, mixed, negative, outdated, or incorrect.
+- Extract recurring descriptors, claimed strengths/weaknesses, missing differentiators, and misinformation.
+- Connect sentiment problems to citation/source problems and content fixes.
+
+**Output:** AI sentiment report with message corrections, citation targets, and content/PR actions.
+
+---
+
+## ai-bot-web-analytics
+
+**Triggers:** "AI bot analytics", "AI crawler traffic", "ChatGPT referrals", "AI search web analytics", "AI bots and web analytics"
+
+**Inputs needed:** target site/project, time window, whether Ahrefs Web Analytics, PostHog, or server logs are available.
+
+**MCP calls:**
+1. Ahrefs `web-analytics-referrers`, `source-channels`, `top-pages`, and charts → AI referrers and landing pages.
+2. PostHog `read-data-schema` then `query-trends` / HogQL if user-agent, referrer, or UTM properties capture AI traffic.
+3. `brand-radar-cited-pages` to compare AI-cited pages with AI-referred landing pages.
+
+**Synthesis:**
+- Separate AI assistant referrals, AI search visibility, and AI crawler/bot visits if the data supports it.
+- Identify pages that get cited but receive little referral traffic, and pages receiving AI traffic that under-convert.
+- Note tracking limitations explicitly; many analytics tools filter bots differently.
+
+**Output:** AI traffic and bot visibility report with tracking recommendations and page-level actions.
+
+---
+
+## ai-citation-freshness
+
+**Triggers:** "AI citation freshness", "stale AI citations", "outdated pages AI cites", "AI cites old content"
+
+**Inputs needed:** brand/domain, market, freshness threshold (default: older than 12 months or materially outdated).
+
+**MCP calls:**
+1. `brand-radar-cited-pages` → pages AI assistants cite.
+2. `brand-radar-ai-responses` → context and claims in AI answers.
+3. `site-audit-page-content` or crawled page data when available → visible dates/content cues.
+4. `site-explorer-top-pages` / `organic-keywords` → business value of cited pages.
+
+**Synthesis:**
+- Flag cited pages that are old, thin, missing current stats, or mismatched to current positioning.
+- Prioritize updates by citation frequency × organic value × business importance.
+- Recommend exact content freshness actions: update date, replace stats, add examples, improve schema, add author/reviewer.
+
+**Output:** Freshness audit table and refresh brief for each high-priority cited page.
+
+---
+
+## community-content-research
+
+**Triggers:** "community content research", "what are people asking in communities", "Reddit topics", "forum research"
+
+**Inputs needed:** topic/market, target audience, country/language, whether live community SERP data is required.
+
+**MCP calls:**
+1. `keywords-explorer-search-suggestions` and `related-terms` → question language and long-tail needs.
+2. `serp-overview` for community-heavy queries → identify forums/communities ranking.
+3. Social tools if connected (`social-media-posts`, post metrics) → owned social/community evidence.
+4. If the user needs current Reddit/forum/news results, propose SerpApi with engine/query/credit cost and wait for approval.
+
+**Synthesis:**
+- Cluster community questions by pain, comparison, objection, workaround, and buying trigger.
+- Map each cluster to content formats: FAQ, comparison, troubleshooting, template, case study, product-led tutorial.
+- Preserve exact user language where available, but do not over-quote external content.
+
+**Output:** Community insight report with topic clusters, user-language snippets, and content briefs.
+
+---
+
+## page-traffic-opportunities
+
+**Triggers:** "page traffic opportunities", "pages close to page one", "increase traffic to existing pages", "CTR opportunities"
+
+**Inputs needed:** target domain, country, time window.
+
+**MCP calls:**
+1. Prefer GSC MCP `get_advanced_search_analytics` / page+query tools if connected → clicks, impressions, CTR, position.
+2. Otherwise Ahrefs `gsc-pages`, `gsc-keywords`, `gsc-ctr-by-position` if available.
+3. Fallback to `site-explorer-organic-keywords` and `top-pages` → estimated ranking opportunities.
+4. `serp-overview` for top candidates → SERP intent/features.
+
+**Synthesis:**
+- Find pages/queries with high impressions or volume at positions 4-20.
+- Estimate lift from moving to target positions using GSC CTR curve when available.
+- Separate title/meta CTR work from content expansion, internal linking, and link acquisition needs.
+
+**Output:** Opportunity table with page, query, current position/CTR, estimated upside, recommended action, and effort.
+
+---
+
+## traffic-forecast
+
+**Triggers:** "forecast traffic", "traffic forecast", "what traffic could this plan drive", "project SEO growth"
+
+**Inputs needed:** target domain, keyword/page set or proposed plan, country, forecast horizon, assumptions.
+
+**MCP calls:**
+1. `keywords-explorer-overview` for target keywords → volume/KD.
+2. `site-explorer-organic-keywords` and `top-pages` → current baseline.
+3. GSC CTR curve (`gsc-ctr-by-position` or GSC MCP equivalent) when available; otherwise use clearly labeled scenario assumptions.
+4. `site-explorer-metrics-history` → historical growth/seasonality context.
+
+**Synthesis:**
+- Build conservative/base/upside scenarios by target position and publication/ramp timing.
+- Apply CTR assumptions transparently and avoid false precision.
+- If PostHog conversions are available, convert traffic scenarios into conversion/revenue scenarios.
+
+**Output:** Forecast report with assumptions, scenario table, risks, and actions needed to reach each scenario.
+
+---
+
+## client-pitch-deck
+
+**Triggers:** "client pitch deck", "agency pitch", "proposal deck", "sell this SEO plan", "freelancer pitch"
+
+**Inputs needed:** prospect domain, market, known competitors, service scope, deck audience.
+
+**MCP calls:**
+1. `site-explorer-metrics`, `metrics-history`, `top-pages`, and `organic-keywords` for prospect.
+2. `site-audit-issues` if a project exists; otherwise use available crawl/domain evidence and state limitation.
+3. `site-explorer-referring-domains` and competitor equivalents.
+4. `brand-radar-visibility` / `share-of-voice` workflows if AI search is in scope.
+5. Optional PostHog only if the user owns the prospect/client analytics.
+
+**Synthesis:**
+- Tell a buyer-ready story: current state, missed upside, competitor pressure, priority initiatives, expected outcomes, next 90 days.
+- Keep evidence tight; avoid a raw data dump.
+- Include assumptions and what data access would improve after onboarding.
+
+**Output:** Slide-by-slide pitch deck outline or markdown deck content. If the user requests tickets/tasks, also create the implementation backlog.
+
+---
+
 ## Composing workflows
 
 When a request spans multiple workflows, run them in sequence and merge:
@@ -435,6 +771,8 @@ When a request spans multiple workflows, run them in sequence and merge:
 - "Audit my site and tell me what to fix" → `site-audit-triage` + `content-decay` + `internal-link-map`
 - "Why are we losing traffic" → `content-decay` + `rank-tracker-report` + `web-analytics-deep-dive` + (if available) `brand-radar-visibility` for the AI search loss factor
 - "Beat competitor X" → `competitor-overview` + `content-gap` + `link-intersect`
-- "AI search strategy" → `brand-radar-visibility` + `ai-cited-pages` + `e-e-a-t-audit`
+- "AI search strategy" → `brand-radar-visibility` + `ai-mention-gap` + `ai-cited-pages` + `ai-citation-freshness` + `e-e-a-t-audit`
+- "Build our next quarter plan" → `content-calendar` + `page-traffic-opportunities` + `link-building-strategy`
+- "Ahrefs' Agent-style client pitch" → `client-pitch-deck` backed by `competitor-overview`, `content-gap`, `site-audit-discovery`, and `link-building-strategy`
 
 Compose, don't pad — the user wants the merged conclusion, not three reports stapled together.

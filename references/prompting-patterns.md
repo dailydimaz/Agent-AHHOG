@@ -33,18 +33,28 @@ Clarify: which competitor, which market.
 
 Clarify: competitor set, country, topical focus.
 
+**"Build a content calendar" / "Editorial plan" / "Next quarter content roadmap"**
+→ `content-calendar`. If conversions matter, add PostHog via `content-roi`.
+
+Clarify: planning horizon, country, topic/segment focus.
+
 **"Where can we get links" / "Help us build links" / "Link strategy"**
-→ Compose: `link-intersect` (best starting point) + `broken-link-building` + `unlinked-mentions`.
+→ Compose: `link-building-strategy` with `link-intersect`, `broken-link-building`, `unlinked-mentions`, and `linkbait-opportunities`.
 
 Clarify: 2–4 competitor domains for intersect; brand name for unlinked mentions.
 
 **"AI search strategy" / "How do we show up in ChatGPT" / "LLM optimization"**
-→ `brand-radar-visibility` + `ai-cited-pages` + `e-e-a-t-audit`.
+→ `brand-radar-visibility` + `ai-mention-gap` + `ai-cited-pages` + `ai-citation-freshness` + `e-e-a-t-audit`.
 
 Clarify: brand name, competitor brand names, primary assistants to track.
 
+**"Trending topics" / "Rising keywords"**
+→ `trending-keyword-research`. If they need live trends right now, SerpApi may be relevant but requires explicit approval.
+
+Clarify: seed topic and country.
+
 **"Quick wins" / "Easy SEO wins" / "Low-hanging fruit"**
-→ `serp-features` (keywords ranking 2–10 with feature opportunities) + `content-decay` (recover lost traffic) + the easiest items from `site-audit-triage`.
+→ `page-traffic-opportunities` + `serp-features` (keywords ranking 2–10 with feature opportunities) + `content-decay` (recover lost traffic) + the easiest items from `site-audit-triage`.
 
 ---
 
@@ -54,7 +64,10 @@ Clarify: brand name, competitor brand names, primary assistants to track.
 → `brand-radar-visibility` (AI side) + `unlinked-mentions` (web side).
 
 **"What does AI say about us"**
-→ `brand-radar-visibility` with focus on the `brand-radar-ai-responses` qualitative read.
+→ `ai-brand-sentiment` with focus on the `brand-radar-ai-responses` qualitative read.
+
+**"AI mentions gap" / "Competitors appear in AI answers but we don't"**
+→ `ai-mention-gap`.
 
 **"Our brand searches are down"**
 → This is a brand demand issue. Look at branded keyword performance in `site-explorer-organic-keywords` filtered to branded terms, plus `brand-radar-mentions-history`.
@@ -74,10 +87,19 @@ This is broad. Default composition:
 Output as a single executive briefing.
 
 **"Plan for next quarter" / "SEO roadmap"**
-→ All of the above + explicit prioritization by quarter. Don't try to fit everything; pick the highest-leverage 5–10 initiatives.
+→ `content-calendar` + `page-traffic-opportunities` + `link-building-strategy` + explicit prioritization by quarter. Don't try to fit everything; pick the highest-leverage 5–10 initiatives.
 
 **"We're launching [product/site/brand]"**
 → Composition depends on stage. Pre-launch: `keyword-research` + competitor profiles. Launch: `site-audit-triage` + content-gap + Rank Tracker setup recommendation. Post-launch: monitoring composition.
+
+**"Create a client pitch deck" / "Agency proposal" / "Pitch this prospect"**
+→ `client-pitch-deck`. Pull only data the user is allowed to access; if the prospect's private analytics are unavailable, use public Ahrefs data and clearly label assumptions.
+
+**"Forecast traffic" / "Project SEO growth"**
+→ `traffic-forecast`. Use GSC CTR curves if available; otherwise label CTR/rank assumptions as model assumptions.
+
+**"Monitor this" / "Alert me" / "Always on"**
+→ Build the report/dashboard/alert if destination MCPs exist and the user requested them. Otherwise save a monitoring spec with exact metric, threshold, cadence, and destination recommendation.
 
 ---
 
@@ -85,6 +107,13 @@ Output as a single executive briefing.
 
 **"Find broken links / 404 backlinks"** → `broken-link-building`
 **"Find unlinked mentions"** → `unlinked-mentions`
+**"Anchor text audit"** → `anchor-text-analysis`
+**"Linkbait ideas / linkable assets"** → `linkbait-opportunities`
+**"Site audit setup / crawl coverage"** → `site-audit-discovery`
+**"Fix site audit issues"** → `site-audit-issue-fixer`
+**"AI bot traffic / ChatGPT referrals"** → `ai-bot-web-analytics`
+**"SEO keywords into AI prompts"** → `seo-to-ai-query-converter`
+**"Community research / Reddit questions"** → `community-content-research`
 **"What keywords does X rank for"** → direct `site-explorer-organic-keywords` call
 **"Compare these domains"** → `competitor-overview` for each, then synthesize
 **"Internal linking"** → `internal-link-map`

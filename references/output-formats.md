@@ -93,7 +93,7 @@ If Notion MCP is **not** connected and the user asked for Notion: tell them clea
 
 ## CSV export
 
-For data-heavy workflows (link intersect prospects, broken link building list, keyword research output, programmatic SEO matrix), produce a CSV alongside the markdown report.
+For data-heavy workflows (link intersect prospects, broken link building list, keyword research output, programmatic SEO matrix, page opportunities, content calendar), produce a CSV alongside the markdown report.
 
 Filename pattern: `agent-ahhog-<workflow>-<domain>-<YYYY-MM-DD>.csv`.
 
@@ -106,6 +106,11 @@ Always include a header row. Standard columns by workflow:
 - **content-decay:** `url,prior_traffic,current_traffic,pct_change,suspected_cause,recommended_action`
 - **cannibalization:** `keyword,cluster,urls_competing,volume,best_rank,worst_rank,recommended_action`
 - **migration-plan:** `source_url,target_url,traffic,backlinks,keywords,priority,notes`
+- **content-calendar:** `week,publish_date,page_type,title,primary_keyword,cluster,volume,kd,intent,cta,priority,notes`
+- **page-traffic-opportunities:** `page,query,current_position,current_ctr,impressions_or_volume,estimated_upside,recommended_action,effort`
+- **link-building-strategy:** `lane,prospect_domain,source_url,dr,traffic,competitor_or_source,angle,priority`
+- **ai-mention-gap:** `topic_or_prompt,target_visible,competitors_visible,cited_sources,gap_type,recommended_action`
+- **traffic-forecast:** `scenario,page_or_keyword,current_position,target_position,volume,ctr_assumption,estimated_visits,estimated_conversions,notes`
 
 ---
 
@@ -146,6 +151,66 @@ Save as `agent-ahhog-<workflow>-<domain>-<YYYY-MM-DD>.html`.
 
 ---
 
+## Client pitch deck
+
+Triggered when the user says "client pitch deck", "agency pitch", "proposal deck", or similar.
+
+Default output is markdown slide content unless a presentation file format is explicitly requested. Keep it buyer-ready and concise:
+
+```markdown
+# [Prospect] SEO / AI Search Growth Proposal
+
+## Slide 1 — Executive Thesis
+[One-sentence opportunity and expected business result.]
+
+## Slide 2 — Current State
+[Traffic, authority, visibility, technical health.]
+
+## Slide 3 — Competitive Pressure
+[Competitor gaps and proof.]
+
+## Slide 4 — Missed Demand
+[Content/page/keyword opportunities.]
+
+## Slide 5 — Authority & Links
+[Link gaps, linkable asset ideas.]
+
+## Slide 6 — Technical Fixes
+[Top site audit/root-cause fixes.]
+
+## Slide 7 — 90-Day Roadmap
+[Three phases with outcomes.]
+
+## Slide 8 — Measurement
+[KPIs, cadence, reporting, data sources.]
+
+## Slide 9 — Scope / Next Step
+[Recommended package or implementation next step.]
+```
+
+Save as `agent-ahhog-client-pitch-<domain>-<YYYY-MM-DD>.md`. If the user asks for PowerPoint/Slides and an appropriate tool/library is available, generate the deck file from this outline.
+
+---
+
+## Monitoring spec
+
+Triggered when the user asks to monitor, alert, watch, or create always-on reporting and no connected destination can be configured directly.
+
+Save as `agent-ahhog-monitoring-<target>-<YYYY-MM-DD>.md` with:
+
+- Metric/entity to monitor.
+- Source tool/query.
+- Segment/filter.
+- Threshold or anomaly rule.
+- Cadence.
+- Destination/owner.
+- Exact setup steps for PostHog, Slack, Linear/GitHub, Notion, or the user's preferred system.
+- Validation check and expected false positives.
+
+If a connected destination exists and the user explicitly requested it, create the dashboard/alert/ticket, then still save this spec as the audit trail.
+
+---
+
 ## Choosing the format
 
 The local markdown report is **always produced** — that's the baseline. Beyond that:
@@ -155,6 +220,8 @@ The local markdown report is **always produced** — that's the baseline. Beyond
 - User said "open issues" / "tickets" / "tasks" → also create issues (via Linear/GitHub MCP if connected, else list them in the report so user can create manually)
 - User said "Drive" / "Google Doc" → also upload to Drive (via Drive MCP if connected)
 - User said "dashboard" / "share with stakeholders" / "visualize" / "interactive" → also produce HTML dashboard
+- User said "pitch deck" / "proposal" → produce client pitch deck markdown, and a deck file only if requested and supported
+- User said "monitor" / "alert" / "watch this" → create the configured destination if possible, otherwise produce a monitoring spec
 - Report contains a large table the user will filter/sort → also produce CSV (don't wait to be asked)
 
 When in doubt, produce the markdown report only and offer the alternates: "Want me to also post this to Slack / create Notion page / open issues?"

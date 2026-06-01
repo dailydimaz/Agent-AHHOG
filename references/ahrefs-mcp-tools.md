@@ -4,6 +4,8 @@ This is the map of which Ahrefs MCP tool to call for which job. Tool names below
 
 The Ahrefs MCP server hosts ~125 tools. They group into the categories below.
 
+**Ahrefs' Agent parity note.** Ahrefs' public Ahrefs' Agent page says Ahrefs' Agent uses full Ahrefs UI-parity access. This reference is only for the Ahrefs MCP surface available to Agent AHHOG. If an Ahrefs' Agent workflow needs a report/filter that is not listed here, call the Ahrefs MCP `doc` tool to check whether a newer endpoint is exposed. If it is not exposed, say so and compose the closest analysis from available tools.
+
 ---
 
 ## Site Explorer — competitor & domain intelligence
@@ -59,7 +61,7 @@ Use these for any "what does this domain look like" question — your own site, 
 
 ## Content Explorer — content discovery (mentioned via Brand Radar siblings)
 
-Used heavily inside content gap, decay, and authority workflows. The MCP server exposes these primarily through Site Explorer and Brand Radar endpoints — use those.
+Used heavily inside content gap, decay, linkbait, community research, and authority workflows. If a Content Explorer-specific MCP endpoint is available in the current client, use it. If not, compose from Site Explorer, Keywords Explorer, Brand Radar, SERP overview, and social tools where available.
 
 ---
 
