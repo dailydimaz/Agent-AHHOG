@@ -1,6 +1,6 @@
-# Agent AHHOG — Claude Code Skill
+# Agent AHHOG — Skill
 
-A Claude Code skill that brings the public Ahrefs Agent capability model into MCP-bound Claude/Codex workflows, then extends it with conversion analytics. It turns **Ahrefs** data (search, links, rankings, AI visibility), **PostHog** data (on-site behavior, funnels, conversions, retention), and optional **GSC/live SERP** sources into finished marketing artifacts.
+A skill that brings the public Ahrefs Agent capability model into MCP-bound Claude/Codex workflows, then extends it with conversion analytics. It turns **Ahrefs** data (search, links, rankings, AI visibility), **PostHog** data (on-site behavior, funnels, conversions, retention), and optional **GSC/live SERP** sources into finished marketing artifacts.
 
 The name **AHHOG** = **A**hrefs + Post**HOG**, the two data sources it joins. (PostHog's mascot is a hedgehog, hence the HOG.)
 
@@ -19,7 +19,7 @@ It ships with:
 
 - **30+ single-source Ahrefs' Agent-style workflows** (content calendars, content gap, cannibalization, content decay, site audit discovery/triage/fixer, backlink analysis, anchor text analysis, broken link building, link intersect, linkbait opportunities, unlinked mentions, SERP features, Brand Radar visibility, AI mention gaps, share of voice, AI-cited pages, AI citation freshness, AI brand sentiment, competitor overview, keyword research, trending keyword research, SEO-to-AI query conversion, programmatic SEO, AI bot/web analytics, page traffic opportunities, web analytics deep dive, rank tracker report, E-E-A-T audit, migration plan, internal link map, traffic forecast, client pitch deck)
 - **6 combined Ahrefs × PostHog workflows** (seo-to-conversion, landing-page-cro, content-roi, channel-truth, audience-segment-seo, campaign-impact)
-- **PostHog-only analysis** (funnels, retention, paths, cohorts, session replays)
+- **PostHog-only analysis** (funnels, retention, paths, cohorts, session replays, CDP destinations, error triage & resolution, support ticket triage)
 - The composition logic to mix them when a single request spans several.
 
 Agent AHHOG is not official Ahrefs' Agent. The public Ahrefs' Agent page says Ahrefs' Agent has full Ahrefs UI-parity access; this skill uses the Ahrefs MCP tools currently connected in your environment and is explicit when a public Ahrefs' Agent capability is not exposed through MCP.
@@ -38,12 +38,15 @@ Agent AHHOG is not official Ahrefs' Agent. The public Ahrefs' Agent page says Ah
 3. **PostHog MCP** (for conversion/behavior work) — free to call; needs a PostHog account:
 
    ```bash
+   npx @posthog/wizard mcp add
+   # Or manually:
    claude mcp add --transport http posthog https://mcp.posthog.com/mcp
    ```
 
-   Or authenticate with a personal API key using the "MCP Server" preset. Setup guide: https://posthog.com/docs/model-context-protocol
+   Works with Claude Code, Cursor, Windsurf, Zed, VS Code, Lovable, Replit, v0, etc.
+   Authenticate with a personal API key using the "MCP Server" preset. Setup guide: https://posthog.com/docs/model-context-protocol.md
 
-   You can also scope the PostHog server to one project or a subset of tools via query params, e.g. `?features=insights,dashboards` — see the PostHog docs.
+   You can also scope the PostHog server to one project or a subset of tools via query params, e.g. `?features=insights,dashboards` — see the PostHog docs. Note: PostHog's docs fully support AI-friendly markdown, just append `.md` to any doc URL (or `/llms.txt`).
 
 4. **SerpApi MCP** (optional — for live SERP data only) — needs a SerpApi account (free plan: 250 searches/month):
 

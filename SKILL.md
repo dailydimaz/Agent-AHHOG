@@ -47,7 +47,7 @@ Full tool map: `references/ahrefs-mcp-tools.md`.
 ### PostHog MCP — on-site behavior, funnels, conversions, retention
 
 1. Check whether PostHog MCP tools are available. Tool names start with `mcp__posthog__` or `PostHog:`. Look for `query-run`, `query-funnel`, `read-data-schema`, `insights-list`.
-2. If not available and the task needs conversion/behavior data, tell the user: "I need the PostHog MCP server connected for the conversion side. Add it with: `claude mcp add --transport http posthog https://mcp.posthog.com/mcp` and authenticate (or use a personal API key with the MCP Server preset). Guide: https://posthog.com/docs/model-context-protocol"
+2. If not available and the task needs conversion/behavior data, tell the user: "I need the PostHog MCP server connected for the conversion side. Add it with: `npx @posthog/wizard mcp add` (or manually via `claude mcp add --transport http posthog https://mcp.posthog.com/mcp`) and authenticate. Guide: https://posthog.com/docs/model-context-protocol.md"
 3. **Always discover the schema first.** PostHog projects use custom event names — you cannot assume the conversion event is called `signup` or `purchase`. Call `read-data-schema` (or `event-definitions-list` + `property-definitions`) before writing any query.
 
 Full tool map: `references/posthog-mcp-tools.md`.
@@ -108,7 +108,7 @@ Full tool reference (20 tools): `references/gsc-mcp-tools.md`.
 
 - **Ahrefs only:** all SEO, link, ranking, brand, and AI-visibility workflows (`references/workflows.md`).
 - **GSC MCP (preferred) / Ahrefs `gsc-*` (fallback):** first-party GSC data — query performance, CTR, impressions, URL inspection, indexing, sitemaps. GSC MCP is more complete; Ahrefs `gsc-*` is the fallback when GSC MCP isn't connected.
-- **PostHog only:** full marketing-analytics on first-party data — conversion/funnel analysis, retention, cohorts, CRO experiments, feature flags, surveys, session replays, dashboards (`references/posthog-mcp-tools.md`).
+- **PostHog only:** full marketing-analytics on first-party data — conversion/funnel analysis, retention, cohorts, CRO experiments, feature flags, surveys, session replays, dashboards, CDP destinations, error triage & resolution, support tickets (`references/posthog-mcp-tools.md`).
 - **Ahrefs + PostHog:** high-value closed-loop workflows — keyword-to-conversion attribution, content ROI, landing-page CRO (`references/combined-workflows.md`).
 - **+ SerpApi (when approved):** extends any of the above with live SERP data when historical data isn't sufficient.
 - **+ GSC MCP + PostHog:** closed-loop from real GSC clicks → PostHog conversions — the most accurate attribution possible (first-party both sides).
@@ -125,10 +125,10 @@ PostHog MCP can read, create, update, and delete resources — including ones th
 All `query-*`, `*-list`, `*-get`, `*-retrieve`, `read-*`, `*-stats`. Use as needed for analysis.
 
 **Tier 2 — Additive / non-destructive writes (act, then report what you did):**
-Creating new resources that don't change existing live behavior: `insight-create`, `dashboard-create`, `cohorts-create`, `survey-create` (in draft), `annotation-create`, `notebooks-create`, `experiment-create` (created in draft, not launched). Just do these when the user's request implies them, then tell the user what you created with a link/ID. No need to ask first — they're reversible and don't affect live users.
+Creating new resources that don't change existing live behavior: `insight-create`, `dashboard-create`, `cohorts-create`, `survey-create` (in draft), `annotation-create`, `notebooks-create`, `experiment-create` (created in draft, not launched), `cdp-destination-create`. Just do these when the user's request implies them, then tell the user what you created with a link/ID. No need to ask first — they're reversible and don't affect live users.
 
 **Tier 3 — Live-affecting or modifying writes (state the change, then proceed unless it's clearly high-stakes):**
-`*-update`, `*-partial-update`, `update-feature-flag`, `experiment-launch`, `experiment-pause`, `experiment-resume`, `experiment-end`, `experiment-ship-variant`, `survey` going live, `cohorts-partial-update`. These change something that already exists or affects live users. Briefly state what you're changing and why, make the change, and confirm the result. If the change touches a **feature flag or experiment that is currently live to real users**, ask first — that's the one modifying case that warrants a pause.
+`*-update`, `*-partial-update`, `update-feature-flag`, `update-error-tracking-issue`, `experiment-launch`, `experiment-pause`, `experiment-resume`, `experiment-end`, `experiment-ship-variant`, `survey` going live, `cohorts-partial-update`. These change something that already exists or affects live users. Briefly state what you're changing and why, make the change, and confirm the result. If the change touches a **feature flag or experiment that is currently live to real users**, ask first — that's the one modifying case that warrants a pause.
 
 **Tier 4 — Destructive / irreversible (DISABLED — never execute; explain how instead):**
 This skill does **not** perform deletions. Agent AHHOG never calls `*-delete`, `*-destroy`, `persons-bulk-delete`, `external-data-schemas-delete-data`, or any tool that deletes an experiment, flag, cohort, dashboard, survey, insight, person, or any other resource — even if the user explicitly asks, even with broad upfront permission, even inside a workflow that would otherwise call for it.
@@ -210,6 +210,7 @@ When calling **SerpApi** tools (if connected and approved):
 - **Minimum calls.** Batch where possible. One search = one credit. State the data as a live snapshot with exact timestamp in the report.
 
 - **Cache mentally within a session.** If you just pulled `site-explorer-metrics` for `example.com`, don't pull it again in the same response — reuse it.
+- **PostHog Docs / llms.txt:** PostHog explicitly supports AI-friendly docs. When doing web research or needing context on PostHog's API, append `.md` to their URLs (e.g. `https://posthog.com/docs/model-context-protocol.md`) or read their `https://posthog.com/llms.txt`.
 - **Date stamp everything.** Note when each pull happened so the final report can cite "as of 2026-05-21".
 
 ### 4. Reason, prioritize, decide

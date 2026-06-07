@@ -196,3 +196,19 @@ These don't need Ahrefs. They're the product-analytics half of marketing — and
 **Steps:** agree the metrics → `insight-create` for each (trends, funnels) → `dashboard-create` and attach them → report the dashboard link. This lives natively in PostHog so the team sees it without Claude.
 
 **Output:** A live PostHog dashboard + the link, plus a one-paragraph summary of what it tracks.
+
+## regression-triage (Tier 3 write)
+
+**Triggers:** "investigate this bug", "why did errors spike", "triage this issue", "contain a regression"
+
+**Steps:** `query-error-tracking-issues-list` → pick the top issue → `query-error-tracking-issue` to get stack trace and context → propose code fix or `update-feature-flag` to disable a broken feature (kill switch, Tier 3) → `update-error-tracking-issue` to assign it to a team or mark resolved (Tier 3).
+
+**Output:** Issue diagnosis, applied kill switch (if necessary), and updated ticket/issue status.
+
+## feature-launch-experiment (Tier 2 create, Tier 3 go-live)
+
+**Triggers:** "launch a new feature", "roll out and test", "setup a beta test"
+
+**Steps:** `create-feature-flag` (with desired rollout) → `experiment-create` on top of that flag to measure a conversion metric → `early-access-feature-create` to let users opt-in → `insight-create` and `dashboard-create` to track the launch.
+
+**Output:** A fully configured launch plan with gating, A/B measurement, and a live tracking dashboard.

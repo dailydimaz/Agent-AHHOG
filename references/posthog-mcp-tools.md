@@ -145,6 +145,7 @@ When a high-traffic SEO landing page converts poorly, session replays show *why*
 | `query-error-tracking-issues-list` | Top error issues | "Are errors hurting conversion?" |
 | `query-error-tracking-issue` | A specific issue | Drill into one error |
 | `query-error-tracking-issue-events` | Events for an issue | Reproduce the problem |
+| `update-error-tracking-issue` | Update issue status/assignment | **Write** — "Mark this issue as resolved and assign to backend team" |
 
 A JS error on a landing page can tank conversion regardless of how good the SEO is. Worth checking when a page underperforms.
 
@@ -168,6 +169,19 @@ Annotating a site migration or content launch date lets every future chart show 
 | `docs-search` | Search PostHog docs | When unsure how a PostHog feature works |
 | `entity-search` | Search entities by name | Find an insight/dashboard/flag by name |
 
+**Pro-tip for PostHog Docs:** PostHog natively supports AI-friendly markdown. You can append `.md` to any PostHog docs URL (e.g., `https://posthog.com/docs/model-context-protocol.md`) or check `https://posthog.com/llms.txt` to get clean, crawlable documentation directly.
+
+---
+
+## CDP Destinations & Support Tickets
+
+| Tool | Returns | Use when |
+| --- | --- | --- |
+| `cdp-destinations-list` / `create` | CDP destinations | Setting up or managing a CDP destination |
+| `support-tickets-list` / `update` | Support tickets | Triaging or managing support tickets (e.g., Zendesk, Intercom integration) |
+
+While primarily for data engineers or support, marketing ops can use these to push PostHog segments to other tools (CDP) or correlate support volume with feature launches.
+
 ---
 
 ## Choosing PostHog tools — decision tree
@@ -190,9 +204,9 @@ PostHog MCP can read, create, update, and delete live resources. This skill is c
 
 **Tier 1 — Read (free):** `query-*`, `*-list`, `*-get`, `*-retrieve`, `read-*`, `*-stats`. No confirmation.
 
-**Tier 2 — Additive writes (do it, then report):** create new, reversible, non-live resources — `insight-create`, `dashboard-create`, `cohorts-create`, `survey-create` (draft), `annotation-create`, `notebooks-create`, `experiment-create` (draft). Act when implied, then report what was made with its ID/link.
+**Tier 2 — Additive writes (do it, then report):** create new, reversible, non-live resources — `insight-create`, `dashboard-create`, `cohorts-create`, `survey-create` (draft), `annotation-create`, `notebooks-create`, `experiment-create` (draft), `cdp-destination-create`. Act when implied, then report what was made with its ID/link.
 
-**Tier 3 — Modifying / live-affecting (state then proceed; pause only if live):** `*-update`, `*-partial-update`, `update-feature-flag`, experiment `launch`/`pause`/`resume`/`end`/`ship-variant`, taking a survey live. State the change and make it. **If the flag or experiment is currently live to real users, ask first.**
+**Tier 3 — Modifying / live-affecting (state then proceed; pause only if live):** `*-update`, `*-partial-update`, `update-feature-flag`, `update-error-tracking-issue`, experiment `launch`/`pause`/`resume`/`end`/`ship-variant`, taking a survey live. State the change and make it. **If the flag or experiment is currently live to real users, ask first.**
 
 **Tier 4 — Destructive / irreversible (DISABLED — never execute):** `*-delete`, `*-destroy`, `persons-bulk-delete`, `external-data-schemas-delete-data`, and any tool that deletes an experiment/flag/cohort/dashboard/survey/insight/person. **The skill never calls these.** Even with explicit user request or broad upfront permission, it does not delete. When deletion is requested or a workflow step would require it, switch to **tutorial mode**: state plainly that the skill doesn't delete, then explain the exact manual steps (PostHog UI path, and the MCP tool name + params if the user wants to run it themselves elsewhere). Help the user delete safely; never delete for them.
 
