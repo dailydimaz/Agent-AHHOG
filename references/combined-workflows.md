@@ -193,7 +193,7 @@ These don't need Ahrefs. They're the product-analytics half of marketing — and
 
 **Triggers:** "build a dashboard", "set up a marketing dashboard in PostHog", "I want a recurring view of"
 
-**Steps:** agree the metrics → `insight-create` for each (trends, funnels) → `dashboard-create` and attach them → report the dashboard link. This lives natively in PostHog so the team sees it without Claude.
+**Steps:** agree the metrics → `insight-create` for each (trends, funnels) → `dashboard-create` and attach them → report the dashboard link. This lives natively in PostHog so the team sees it without needing the AI.
 
 **Output:** A live PostHog dashboard + the link, plus a one-paragraph summary of what it tracks.
 

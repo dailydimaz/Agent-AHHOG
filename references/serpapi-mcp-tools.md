@@ -44,9 +44,10 @@ If the user says no or is unsure, fall back to Ahrefs data and note it may not r
 
 ---
 
-## Setup (Claude Code)
+## Setup
 
 ```bash
+# Example for Claude Code
 claude mcp add --transport http serpapi https://mcp.serpapi.com/YOUR_API_KEY/mcp
 ```
 
@@ -54,7 +55,7 @@ Replace `YOUR_API_KEY` with your SerpApi API key from https://serpapi.com/dashbo
 
 Free plan: 250 searches/month. Paid plans from $50/month for 5,000 searches.
 
-The user in claude.ai has a pre-connected SerpApi integration — if you see `serpapi:search` in available tools, you can propose using it (still subject to the approval rules above).
+The user might have a pre-connected SerpApi integration in their client (e.g., in claude.ai) — if you see `serpapi:search` in available tools, you can propose using it (still subject to the approval rules above).
 
 ---
 

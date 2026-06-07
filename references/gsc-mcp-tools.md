@@ -56,7 +56,7 @@ which uvx
 # Returns something like: /Users/yourname/.local/bin/uvx
 ```
 
-**Claude Desktop config** (`~/Library/Application Support/Claude/claude_desktop_config.json`):
+**MCP Client Config** (e.g., `~/Library/Application Support/Claude/claude_desktop_config.json`):
 
 OAuth (recommended for personal use):
 ```json
@@ -89,7 +89,7 @@ Service account (for teams/automation):
 }
 ```
 
-After saving: **fully quit and reopen Claude Desktop** (`Cmd+Q`, not just close window).
+After saving: **fully restart your MCP client**.
 
 ### Credentials setup (one-time)
 

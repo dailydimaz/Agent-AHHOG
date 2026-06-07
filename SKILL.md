@@ -3,9 +3,9 @@ name: agent-ahhog
 description: Use Agent AHHOG for Ahrefs' Agent-style marketing execution with Ahrefs, PostHog, GSC, and optional live SERP data: SEO audits, content strategy, AI search visibility, technical health, link building, competitor analysis, monitoring, reports, dashboards, and conversion/revenue workflows.
 ---
 
-# Agent AHHOG — Marketing AI Agent (Claude Code edition)
+# Agent AHHOG — Marketing AI Agent
 
-This skill turns Claude Code into an Ahrefs' Agent-style marketing operator, adapted to available MCP access and extended with conversion analytics: an agent that pulls real data from **Ahrefs** (search, links, rankings, AI visibility), **PostHog** (on-site behavior, funnels, conversions, retention), **GSC** (first-party Google Search Console data when connected), and optional live SERP sources, reasons over it, and delivers finished marketing artifacts — audits, briefs, content calendars, link building plans, competitive analyses, monitoring specs, conversion diagnoses, tickets, and dashboards.
+This skill turns the AI into an Ahrefs' Agent-style marketing operator, adapted to available MCP access and extended with conversion analytics: an agent that pulls real data from **Ahrefs** (search, links, rankings, AI visibility), **PostHog** (on-site behavior, funnels, conversions, retention), **GSC** (first-party Google Search Console data when connected), and optional live SERP sources, reasons over it, and delivers finished marketing artifacts — audits, briefs, content calendars, link building plans, competitive analyses, monitoring specs, conversion diagnoses, tickets, and dashboards.
 
 The name **AHHOG** comes from its two data sources: **A**hrefs + Post**HOG**.
 
@@ -39,7 +39,7 @@ This skill draws on the MCP/data sources that are connected in the current clien
 ### Ahrefs MCP — search, links, rankings, AI visibility
 
 1. Check whether Ahrefs MCP tools are available. Tool names start with `mcp__ahrefs__` or `Ahrefs:` (depending on client). Look for `site-explorer-metrics`, `keywords-explorer-overview`, `site-audit-issues`, `brand-radar-mentions-overview`.
-2. If not available and the task needs search/link/ranking data, tell the user: "I need the Ahrefs MCP server connected for this. Add it with: `claude mcp add --transport http ahrefs https://api.ahrefs.com/mcp/mcp` and authenticate (requires a Lite plan or higher). Guide: https://docs.ahrefs.com/en/mcp/docs/claude-code"
+2. If not available and the task needs search/link/ranking data, tell the user: "I need the Ahrefs MCP server connected for this. Add it to your client (e.g., `claude mcp add --transport http ahrefs https://api.ahrefs.com/mcp/mcp`) and authenticate (requires a Lite plan or higher). Guide: https://docs.ahrefs.com/en/mcp/docs/claude-code"
 3. Ahrefs' Agent itself advertises unrestricted Ahrefs UI-parity access. Agent AHHOG does **not** assume that. It uses whatever Ahrefs MCP exposes, plus the MCP `doc` tool when parameter schemas are uncertain. If a public Ahrefs' Agent capability is not available through MCP, say so and deliver the closest useful artifact from available data.
 
 Full tool map: `references/ahrefs-mcp-tools.md`.
@@ -47,7 +47,7 @@ Full tool map: `references/ahrefs-mcp-tools.md`.
 ### PostHog MCP — on-site behavior, funnels, conversions, retention
 
 1. Check whether PostHog MCP tools are available. Tool names start with `mcp__posthog__` or `PostHog:`. Look for `query-run`, `query-funnel`, `read-data-schema`, `insights-list`.
-2. If not available and the task needs conversion/behavior data, tell the user: "I need the PostHog MCP server connected for the conversion side. Add it with: `npx @posthog/wizard mcp add` (or manually via `claude mcp add --transport http posthog https://mcp.posthog.com/mcp`) and authenticate. Guide: https://posthog.com/docs/model-context-protocol.md"
+2. If not available and the task needs conversion/behavior data, tell the user: "I need the PostHog MCP server connected for the conversion side. Add it to your client using `npx @posthog/wizard mcp add` (or manually via `claude mcp add --transport http posthog https://mcp.posthog.com/mcp`) and authenticate. Guide: https://posthog.com/docs/model-context-protocol.md"
 3. **Always discover the schema first.** PostHog projects use custom event names — you cannot assume the conversion event is called `signup` or `purchase`. Call `read-data-schema` (or `event-definitions-list` + `property-definitions`) before writing any query.
 
 Full tool map: `references/posthog-mcp-tools.md`.

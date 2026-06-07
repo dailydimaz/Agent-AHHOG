@@ -2,7 +2,7 @@
 
 Source snapshot: https://ahrefs.com/, checked 2026-06-01.
 
-This reference maps public Ahrefs' Agent capabilities to what Agent AHHOG should do in Claude/Codex. Agent AHHOG is independent and MCP-bound: it should mirror the job shape and artifact quality, not claim Ahrefs' Agent's full internal access.
+This reference maps public Ahrefs' Agent capabilities to what Agent AHHOG should do in your MCP-compatible AI client. Agent AHHOG is independent and MCP-bound: it should mirror the job shape and artifact quality, not claim Ahrefs' Agent's full internal access.
 
 ## Access boundary
 

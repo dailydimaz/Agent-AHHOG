@@ -1,6 +1,6 @@
 # Agent AHHOG — Skill
 
-A skill that brings the public Ahrefs Agent capability model into MCP-bound Claude/Codex workflows, then extends it with conversion analytics. It turns **Ahrefs** data (search, links, rankings, AI visibility), **PostHog** data (on-site behavior, funnels, conversions, retention), and optional **GSC/live SERP** sources into finished marketing artifacts.
+A skill that brings the public Ahrefs Agent capability model into MCP-bound AI workflows, then extends it with conversion analytics. It turns **Ahrefs** data (search, links, rankings, AI visibility), **PostHog** data (on-site behavior, funnels, conversions, retention), and optional **GSC/live SERP** sources into finished marketing artifacts.
 
 The name **AHHOG** = **A**hrefs + Post**HOG**, the two data sources it joins. (PostHog's mascot is a hedgehog, hence the HOG.)
 
@@ -8,7 +8,7 @@ The combination is the point. Ahrefs tells you who arrives and from where; PostH
 
 ## What it does
 
-When this skill is active in Claude Code, Claude becomes an **operator** that:
+When this skill is active, the AI becomes an **operator** that:
 
 - Listens for marketing intents (audits, content gaps, link prospecting, brand monitoring, AI visibility, conversion analysis, content ROI, etc.)
 - Pulls real data from the Ahrefs MCP server and/or the PostHog MCP server
@@ -26,7 +26,7 @@ Agent AHHOG is not official Ahrefs' Agent. The public Ahrefs' Agent page says Ah
 
 ## Prerequisites
 
-1. **Claude Code** installed.
+1. An **MCP-compatible client** (e.g., Claude Code, Cursor, Windsurf, Zed).
 2. **Ahrefs MCP** (for SEO/link/ranking/AI-visibility work) — needs an Ahrefs account, Lite plan or higher:
 
    ```bash
@@ -76,7 +76,7 @@ Agent AHHOG is not official Ahrefs' Agent. The public Ahrefs' Agent page says Ah
 
 ## Installing the skill
 
-Copy the `agent-ahhog/` folder into your Claude Code skills directory:
+Copy the `agent-ahhog/` folder into your client's skills or system prompt directory:
 
 ```bash
 # project-level
@@ -86,11 +86,11 @@ cp -r agent-ahhog/ .claude/skills/
 cp -r agent-ahhog/ ~/.claude/skills/
 ```
 
-Restart Claude Code so it picks up the new skill.
+Restart your client so it picks up the new skill/instructions.
 
 ## Using it
 
-Just talk to Claude naturally:
+Just talk to the AI naturally:
 
 SEO / Ahrefs:
 - "Audit my site, ahrefs.com"
